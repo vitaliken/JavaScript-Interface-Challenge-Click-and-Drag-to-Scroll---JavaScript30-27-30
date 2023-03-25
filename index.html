@@ -38,6 +38,49 @@
 
     <script>
 
+        const slider = document.querySelector('.items');
+        let isDown = false;//нажата мышь или нет
+        let startX;//точка налала
+        let scrollLeft;//прокрутка
+
+        //кликнуть и держать мышь
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            //учитывает смещение поля на странице:
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft
+        });
+
+        //убрать мышь
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        //поднять мышь
+        slider.addEventListener('mouseup', () => {
+            slider.classList.remove('active');
+            isDown = false;
+        });
+
+        //двигать мышь по полю
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;//остановить выполнение функции
+            // console.log(isDown);
+            // console.log('work')
+            e.preventDefault;//не выделять текст
+            //учитывает смещение поля на странице(еще раз):
+            const x = e.pageX - slider.offsetLeft;
+            // console.log({x, startX});
+            //вычисляет насколько мы сдвинулись от места клика + скорость:
+            const walk = (x - startX) * 4;
+            // console.log(walk);
+
+            slider.scrollLeft = scrollLeft - walk;
+
+        });
+
     </script>
 
 </body>
